@@ -1,0 +1,117 @@
+﻿@model Login.Models.Producto
+
+@{
+ViewData["Title"] = "Edit";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Editar Producto</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProId" />
+
+            <div class="form-group">
+                <label asp-for="ProNombre" class="control-label">Nombre del producto</label>
+                <input asp-for="ProNombre" class="form-control" />
+                <span asp-validation-for="ProNombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProDescripcion" class="control-label">Descripción del producto</label>
+                <input asp-for="ProDescripcion" class="form-control" />
+                <span asp-validation-for="ProDescripcion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProPrecio" class="control-label">Precio del producto</label>
+                <input asp-for="ProPrecio" class="form-control" />
+                <span asp-validation-for="ProPrecio" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProStock" class="control-label">Stock del producto</label>
+                <input asp-for="ProStock" class="form-control" />
+                <span asp-validation-for="ProStock" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Imagen actual del producto</label>
+                @if (Model.ProImagen != null && Model.ProImagen.Length > 0)
+                {
+                <div>
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ProImagen)" class="img-thumbnail" />
+                </div>
+                }
+                else
+                {
+                <span>No hay imagen cargada</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProImagen" class="control-label">Seleccionar nueva imagen del producto.</label>
+                <input type="file" id="ProImagenInput" name="ProImagen" class="form-control" onchange="validateFile(event)" accept="image/*">
+                <span asp-validation-for="ProImagen" class="text-danger"></span>
+                <br />
+                <img id="imagenPreview" src="#" alt="Vista previa de imagen" style="max-width: 100%; display: none;" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CatId" class="control-label">Categoría del producto</label>
+                <select asp-for="CatId" class="form-control" asp-items="ViewBag.CatId"></select>
+                <span asp-validation-for="CatId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SubcId" class="control-label">Subcategoría del producto</label>
+                <select asp-for="SubcId" class="form-control" asp-items="ViewBag.SubcId"></select>
+                <span asp-validation-for="SubcId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver a la lista</a>
+</div>
+
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+<script>
+    function validateFile(event) {
+        var input = event.target;
+        var file = input.files[0];
+        var maxSize = 5 * 1024 * 1024; // 5MB
+        var allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+        if (file.size > maxSize) {
+            alert('El archivo seleccionado es demasiado grande. Por favor, elige un archivo más pequeño.');
+            input.value = ''; // Reset the input file element
+            return;
+        }
+
+        if (!allowedTypes.includes(file.type)) {
+            alert('El archivo seleccionado no es una imagen válida. Por favor, elige un archivo de tipo imagen (jpg, png, gif).');
+            input.value = ''; // Reset the input file element
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function(){
+            var imgElement = document.getElementById('imagenPreview');
+            imgElement.src = reader.result;
+            imgElement.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+</script>
+}

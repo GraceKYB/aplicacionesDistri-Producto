@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        body {
+            background-color: #f4f4f9;
+        }
+        .navbar-custom {
+            background-color: #004d40; /* Verde petróleo */
+        }
+        .navbar-custom .navbar-brand, 
+        .navbar-custom .nav-link,
+        .navbar-custom .btn-link {
+            color: #ffffff; /* Blanco */
+        }
+        .navbar-custom .navbar-toggler-icon {
+            filter: invert(1);
+        }
+        .footer-custom {
+            background-color: #004d40; /* Verde petróleo */
+            color: #ffffff; /* Blanco */
+        }
+        .btn-custom {
+            background-color: #004d40; /* Verde petróleo */
+            color: #ffffff; /* Blanco */
+        }
+        .btn-custom:hover {
+            background-color: #00332d; /* Verde petróleo oscuro */
+            color: #ffffff; /* Blanco */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-custom navbar-light border-bottom shadow-sm mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Aplicaciones Distribuidas</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" >Inicio</a>
+                        </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
+                            </li>                    
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Subcategorias" asp-action="Index">Subcategorias</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Productoes" asp-action="Index">Productos</a>
+                            </li>
+                            <li class="nav-item">
+                                <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
+                                    <button type="submit" class="btn btn-link nav-link" style="color: inherit;">Cerrar Sesion</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Registrarse</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="footer-custom border-top mt-auto py-3">
+        <div class="container">
+            &copy; 2024 - Aplicaciones Distribuidas - <a asp-area="" asp-controller="Home" asp-action="Privacy" style="color: #ffffff;">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

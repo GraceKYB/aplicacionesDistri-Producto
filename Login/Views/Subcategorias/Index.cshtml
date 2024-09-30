@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Login.Models.Subcategoria>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+    <style>
+        /* Estilos para la tabla */
+        .table-container {
+            width: 80%;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            .table th, .table td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .table th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+
+        /* Estilos para los enlaces de acción */
+        .action-links a {
+            margin-right: 10px;
+            color: brown;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .action-links a:hover {
+                text-decoration: underline;
+                color: #0056b3;
+            }
+
+        /* Estilos para el título */
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        /* Estilos para el enlace de registrar subcategoría */
+        .create-link {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .create-link a {
+                color: #007bff;
+                text-decoration: none;
+                font-weight: bold;
+                transition: color 0.3s ease;
+            }
+
+                .create-link a:hover {
+                    color: #0056b3;
+                }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <h1>Subcategorías</h1>
+
+        <div class="create-link">
+            <a asp-action="Create">Registrar una subcategoría</a>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre de Subcategoría
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SubcNombre)
+                        </td>
+                        <td class="action-links">
+                            <a asp-action="Edit" asp-route-id="@item.SubcId">Editar</a> |
+                            <a asp-action="Delete" asp-route-id="@item.SubcId">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

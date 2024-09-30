@@ -1,0 +1,25 @@
+﻿@model Login.Models.Subcategoria
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>¿Está seguro que desea eliminar este elemento?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Nombre de Subcategoria
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SubcNombre)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="SubcId" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver a la lista</a>
+    </form>
+</div>
